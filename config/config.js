@@ -189,6 +189,13 @@ module.exports = {
         returnObj.flowFile = process.env.FLOW_NAME;
         returnObj.flowFilePretty= false;
     }
+    if (process.env.LOG_AUDIT) {
+        returnObj.logging.console.audit = true;
+    }
+    if (process.env.LOG_METRICS) {
+        returnObj.logging.console.metrics = true;
+    }
+    
     return returnObj;
   }
 };
