@@ -13,7 +13,9 @@
 
 const bcrypt = require('bcrypt'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    Influx = require('influx'),
+    os = require('os');
 
 var passwd = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10);
 module.exports = {
@@ -181,6 +183,57 @@ module.exports = {
           }
         }
       }
+    if (process.env.LOG_INFLUX) {
+        returnObj.logging.influx = {
+                level: process.env.LOG_LEVEL,
+
+                // Whether or not to include metric events in the log output
+                metrics: process.env.LOG_METRICS,
+                // Whether or not to include audit events in the log output
+                audit: process.env.LOG_AUDIT,
+                handler: function(settings) {
+                    const influx = new Influx.InfluxDB({
+                         host: process.env.LOG_INFLUX_HOST,
+                         database: process.env.LOG_INFLUX_DATABASE,
+                         schema: [
+                           {
+                             measurement: 'node-red-logs',
+                             fields: {
+                               message: Influx.FieldType.STRING,
+                             },
+                             tags: [
+                               'host'
+                             ]
+                           }
+                         ]
+                        });
+                    return function(msg) {
+                        var message =   {
+                            measurement: 'node-red-logs',
+                            tags: { host: os.hostname() },
+                            fields: { message: JSON.stringify(msg) },
+                        }
+                        // var message = {
+                        //     '@tags': ['node-red', 'test'],
+                        //     '@fields': msg,
+                        //     '@timestamp': (new Date(msg.timestamp)).toISOString()
+                        // }
+                        try {
+                            influx.writePoints([
+                                message
+                            ]).then(function() {
+                                // console.log("Would have logged a message");
+                                // Do nothing for now - console logger will pick this up.
+                            }, function() {
+                                console.log("Failed to log message to influx");
+                            })
+                        } catch(err) { 
+                            console.log(err);
+                        }
+                    }
+                }
+        }
+    }
     if (process.env.STORAGE == "mongo") {
         returnObj.storageModule = require("./mongostorage");
     }
