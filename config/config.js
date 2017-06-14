@@ -192,21 +192,22 @@ module.exports = {
                 // Whether or not to include audit events in the log output
                 audit: process.env.LOG_AUDIT,
                 handler: function(settings) {
-                    const influx = new Influx.InfluxDB({
-                         host: process.env.LOG_INFLUX_HOST,
-                         database: process.env.LOG_INFLUX_DATABASE,
-                         schema: [
-                           {
-                             measurement: 'node-red-logs',
-                             fields: {
-                               message: Influx.FieldType.STRING,
-                             },
-                             tags: [
-                               'host'
-                             ]
-                           }
-                         ]
-                        });
+                    const influx = new Influx.InfluxDB(process.env.LOG_INFLUX_URL);
+                    // const influx = new Influx.InfluxDB({
+                    //      host: process.env.LOG_INFLUX_HOST,
+                    //      database: process.env.LOG_INFLUX_DATABASE,
+                    //      schema: [
+                    //        {
+                    //          measurement: 'node-red-logs',
+                    //          fields: {
+                    //            message: Influx.FieldType.STRING,
+                    //          },
+                    //          tags: [
+                    //            'host'
+                    //          ]
+                    //        }
+                    //      ]
+                    //     });
                     return function(msg) {
                         var message =   {
                             measurement: 'node-red-logs',
