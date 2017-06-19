@@ -21,7 +21,7 @@
     "mongodb": "^2.2.26",
     "node-red": "^0.16.2",
     "node-red-contrib-auth": "^0.1.5",
-    "node-red-contrib-http-multipart": "^0.1.4",
+    "node-red-contrib-http-multipart": "^0.2.0",
     "node-red-contrib-mongodb2": "^0.5.5",
     "node-red-dashboard": "^2.0.2",
     "node-red-node-aws": "^0.1.0",

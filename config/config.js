@@ -193,6 +193,12 @@ module.exports = {
                 audit: process.env.LOG_AUDIT,
                 handler: function(settings) {
                     const influx = new Influx.InfluxDB(process.env.LOG_INFLUX_URL);
+
+                    // influx.createDatabase("logs").then(function() {
+                    //     console.log("Created logs database");
+                    // }, function(e) {
+                    //     console.log("Error trying to create database: ", e)
+                    // });
                     // const influx = new Influx.InfluxDB({
                     //      host: process.env.LOG_INFLUX_HOST,
                     //      database: process.env.LOG_INFLUX_DATABASE,
