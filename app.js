@@ -7,6 +7,7 @@ var express = require("express");
 var RED = require("node-red"),
     app = express(),
     environment = app.settings.env,
+    // bodyParser = require('body-parser'),
     _ = require('underscore');
 
 var config = require("/usr/src/config/config.js");
@@ -38,6 +39,7 @@ if (redConfig.httpAdminRoot) {
 
 // Serve the http nodes UI from /api
 app.use(redConfig.httpNodeRoot,RED.httpNode);
+// app.use(bodyParser.json({limit: '5mb'}));
 
 server.listen(config.main.port);
 console.log("Listening on port ", config.main.port);

@@ -41,6 +41,8 @@ module.exports = {
         // The maximum length, in characters, of any message sent to the debug sidebar tab
         debugMaxLength: 1000,
 
+        bodyParserLimit: "10mb",
+
         // By default, all user data is stored in the Node-RED install directory. To
         // use a different location, the following property can be used
         userDir: "/usr/src/flows",
