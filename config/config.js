@@ -236,11 +236,12 @@ module.exports = {
                         try {
                             influx.writePoints([
                                 message
-                            ]).then(function() {
+                            ]).then(function(data) {
+                                console.log(data);
                                 // console.log("Would have logged a message");
                                 // Do nothing for now - console logger will pick this up.
-                            }, function() {
-                                console.log("Failed to log message to influx");
+                            }, function(err) {
+                                console.log("Failed to log message to influx: ", err);
                             })
                         } catch(err) { 
                             console.log(err);
