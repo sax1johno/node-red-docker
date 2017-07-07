@@ -225,8 +225,13 @@ module.exports = {
                     return function(msg) {
                         var message =   {
                             measurement: process.env.APP_NAME + "logs",
-                            tags: { host: os.hostname() },
-                            fields: { message: JSON.stringify(msg) },
+                            tags: { 
+                                host: os.hostname(),
+                                level: msg.level,
+                                type: msg.type,
+                                name: msg.name || ""
+                            },
+                            fields: { message: JSON.stringify(msg.msg) },
                         }
                         // var message = {
                         //     '@tags': ['node-red', 'test'],
