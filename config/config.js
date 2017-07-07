@@ -229,9 +229,8 @@ module.exports = {
                                 host: os.hostname(),
                                 level: msg.level,
                                 type: msg.type,
-                                name: msg.name || ""
                             },
-                            fields: { message: JSON.stringify(msg.msg) },
+                            fields: { message: JSON.stringify(msg.msg), name: msg.name || "" },
                         }
                         // var message = {
                         //     '@tags': ['node-red', 'test'],
