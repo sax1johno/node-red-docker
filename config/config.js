@@ -224,7 +224,7 @@ module.exports = {
                     //     });
                     return function(msg) {
                         var message =   {
-                            measurement: 'node-red-logs',
+                            measurement: process.env.APP_NAME + "logs",
                             tags: { host: os.hostname() },
                             fields: { message: JSON.stringify(msg) },
                         }
