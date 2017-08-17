@@ -20,7 +20,7 @@
     "influx": "^5.0.7",
     "moment": "^2.18.1",
     "mongodb": "^2.2.26",
-    "node-red": "^0.16.2",
+    "node-red": "^0.17.5",
     "node-red-contrib-auth": "^0.1.5",
     "node-red-contrib-bcrypt": "0.0.47",
     "node-red-contrib-ftp": "0.0.1",
