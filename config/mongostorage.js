@@ -269,6 +269,7 @@ function saveCredentials(credentials) {
     console.log("credentials are ", credentials);
     var defer = when.defer();
     collection().then(function(collection) {
+        // collection.findOne({appname: appname}, function)
         collection.find({appname:appname}, {
             sort: {
                 $natural:-1
@@ -331,28 +332,39 @@ function getSettings () {
 
 function saveSettings (settings) {
     var defer = when.defer();
-    collection().then(function(collection) {       
+    collection().then(function(collection) {
         collection.find({appname:appname}, {
             sort: {
                 $natural:-1
             },
             limit: 1
         }, function(err, doc) {
-            doc = doc[0];
+            // doc = doc[0];
             if (err) {
                 console.log(err);
                 defer.reject(err);
             } else {
                 // defer.resolve();
-                console.log("Saving settings");
-                doc.settings = bconv(settings);
-                delete doc._id;
-                console.log(doc);
-                collection.insert(doc, function(err, doc) {
+                // console.log("Saving settings in doc", doc);
+                // var docObject = doc.toObject();
+                var docObject = {};
+                for (var key in doc) {
+                    docObject[key] = doc[key];
+                }
+                docObject.settings = bconv(settings);
+                delete docObject._id;
+                console.log("doc before saving settings", docObject);
+
+                // Copied over because of Rangeerror
+                // see https://stackoverflow.com/questions/24466366/mongoose-rangeerror-maximum-call-stack-size-exceeded
+                collection.insert(docObject, function(err, doc) {
+                    console.log("Should have inserted doc");
                     if (err) {
+                        console.log("errored out");
                         console.log(err);
                         defer.reject(err);
                     } else {
+                        console.log("Resolved settings");
                         defer.resolve();
                     }
                 });
