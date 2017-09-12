@@ -18,6 +18,9 @@ const bcrypt = require('bcrypt'),
     os = require('os');
 
 var passwd = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10);
+
+var title = process.env.EDITOR_TITLE || "Propl Flow Editor"
+
 module.exports = {
   appName: process.env.APP_NAME,
   main: {
@@ -86,6 +89,16 @@ module.exports = {
             }]
         },
 
+        editorTheme: {
+            page: {
+                title: title
+            },
+            header: {
+                title: title,
+                image: null,
+                url: "http://www.johnwoconnor.com"
+            }
+        },
 
         // The maximum size of HTTP request that will be accepted by the runtime api.
         // Default: 5mb
