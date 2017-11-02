@@ -17,7 +17,7 @@ const bcrypt = require('bcrypt'),
     Influx = require('influx'),
     os = require('os');
 
-var passwd = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10);
+var passwd = process.env.HASHED_ADMIN_PASSWORD || bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10);
 
 var title = process.env.EDITOR_TITLE || "Propl Flow Editor"
 
