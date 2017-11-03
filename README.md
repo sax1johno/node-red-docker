@@ -19,7 +19,8 @@ Below is a list of the environment variables you can use to configure the base i
 | HTTP_ADMIN_ROOT | /system/admin      |    Any valid absolute path name | Specify which path the flow editor will be served from
 | HTTP_NODE_ROOT | /      |    Any valid absolute path name | Specify which path will the the base path for all URL's specified in a Node-RED node.
 | ADMIN_USERNAME | admin      |    any valid unix username | The admin username you'll use to log into the system (uses basic auth)
-| ADMIN_PASSWORD | (null - you should always set this)      |    Any Valid Password | Sets the  admin password for your login
+| HASHED_ADMIN_PASSWORD | (null)      |  bcrypt hash of the users password | Sets the admin password for your login - stored as a bcrypt hash
+| ADMIN_PASSWORD | (null )      |    Any Valid Password | (deprecated) Sets the  admin password for your login.  For better security, use the HASHED_ADMIN_PASSWORD instead.
 | LOG_LEVEL | debug      |   [fatal\|error\| warn\|info\|debug\|trace\|]  | Specify how granular you want the logs to be
 | LOG_METRICS | false      |   [true\|false] | If true, logs out metrics data as well as the given log level data
 | LOG_AUDIT | false     |    [true\|false] | if true, logs out audit trail data as well as the given log info.
@@ -28,6 +29,7 @@ Below is a list of the environment variables you can use to configure the base i
 | MONGO_APPNAME | $APP_NAME     |    Any valid string | Gives a name to this application in MongoDB. Allows you to store multiple node-red flows within the same MongoDB collection.
 | MONGO_COLLECTION | ${APP_NAME}_flows     |    Any valid MongoDB collection name | Specifies which MongoDB collection to store the flows in for this application.  Defaults to the name of your application with _flows afterward, so by default all applications store their flows in a different collection. 
 | MONGO_DATABASE_URL | mongodb://db/ |    Any valid MongoDB connection string | Specifies a connection string for connecting to MongoDB.  By default, assumes there is a linked container with a service called "db" running MongoDB.  This can be changed to any valid MongoDB database connection string, and can be used with ?ssl and ?replset options.
+| USERDIR | /usr/src/flows | Any absolute path (URI) | Specifies the location in the file system that installed nodes and flows will be saved.  Mount this in a persistent storage area to make installed modules and saved flows persist across instances
 
 # LICENSE
 MIT License (see LICENSE file for detials).  Copyright (C) 2017, John O'Connor

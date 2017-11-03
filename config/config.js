@@ -48,7 +48,7 @@ module.exports = {
 
         // By default, all user data is stored in the Node-RED install directory. To
         // use a different location, the following property can be used
-        userDir: "/usr/src/flows",
+        userDir: process.env.USERDIR || "/usr/src/flows",
 
         // Node-RED scans the `nodes` directory in the install directory to find nodes.
         // The following property can be used to specify an additional directory to scan.
@@ -96,7 +96,7 @@ module.exports = {
             header: {
                 title: title,
                 image: null,
-                url: "http://www.johnwoconnor.com"
+                url: process.env.TITLE || "www.propl.us"
             }
         },
 
