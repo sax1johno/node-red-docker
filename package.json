@@ -20,6 +20,7 @@
     "express": "4.13.4",
     "influx": "^5.0.7",
     "moment": "^2.18.1",
+    "moment-timezone": "^0.5.14",
     "mongodb": "^2.2.26",
     "node-red": "^0.17.5",
     "node-red-contrib-auth": "^0.1.5",

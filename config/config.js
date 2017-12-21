@@ -157,7 +157,7 @@ module.exports = {
         functionGlobalContext: {
             os:require('os'),
             _: require('underscore'),
-            moment: require('moment')
+            moment: require('moment-timezone'),
         },
         // can be accessed in a function block as:
         //    context.global.os
