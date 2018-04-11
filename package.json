@@ -1,6 +1,6 @@
 {
   "name": "Your_App",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A Node-RED base application",
   "main": "app.js",
   "scripts": {
