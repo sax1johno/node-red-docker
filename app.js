@@ -37,10 +37,16 @@ if (redConfig.httpAdminRoot) {
     app.use(redConfig.httpAdminRoot,RED.httpAdmin);
 }
 
+app.use(function (req, res, next) {
+	res.setHeader('X-Powered-By', 'Propl')
+	next()
+});
+
 // Serve the http nodes UI from /api
 app.use(redConfig.httpNodeRoot,RED.httpNode);
 // app.use(bodyParser.json({limit: '5mb'}));
 
+// X-Powered-By: Express
 server.listen(config.main.port);
 console.log("Listening on port ", config.main.port);
 // Start the runtime

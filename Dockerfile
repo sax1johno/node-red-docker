@@ -13,6 +13,7 @@ COPY app.js /usr/src
 COPY public /usr/src/workspace
 COPY config /usr/src/config
 COPY flows /usr/src/flows
+COPY images /usr/src/images
 
 VOLUME /usr/src/flows
 VOLUME /usr/src/workspace

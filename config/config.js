@@ -95,11 +95,13 @@ module.exports = {
             },
             header: {
                 title: title,
-                image: null,
+                image: "/usr/src/images/propllight50x50.png",
                 url: process.env.TITLE || "www.propl.us"
+            },
+            login: {
+                image: "/usr/src/images/propl256x256.png" // a 256x256 image
             }
         },
-
         // The maximum size of HTTP request that will be accepted by the runtime api.
         // Default: 5mb
         apiMaxLength: '10mb',
