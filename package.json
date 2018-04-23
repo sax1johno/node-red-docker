@@ -15,23 +15,26 @@
   "license": "SEE LICENSE IN LICENSE.txt",
   "dependencies": {
     "amqp": "^0.2.6",
-    "bcrypt": "^1.0.2",
+    "bcrypt": "^2.0.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
-    "express": "4.13.4",
+    "express": "4.16.3",
     "influx": "^5.0.7",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.14",
-    "mongodb": "^2.2.26",
-    "node-red": "^0.17.5",
+    "mongodb": "^3.0.6",
+    "nano": "^6.4.3",
+    "node-red": "^0.18.4",
     "node-red-contrib-auth": "^0.1.5",
     "node-red-contrib-aws": "^0.3.3",
     "node-red-contrib-bcrypt": "0.0.47",
-    "node-red-contrib-ftp": "0.0.1",
-    "node-red-contrib-ftp-server": "^0.1.2",
+    "node-red-contrib-cotejs": "0.0.4",
+    "node-red-contrib-ftp": "0.0.2",
+    "node-red-contrib-ftp-server": "^0.2.2",
     "node-red-contrib-http-multipart": "^0.3.2",
     "node-red-contrib-mongodb2": "^0.5.5",
     "node-red-contrib-npm": "^1.0.0",
-    "node-red-contrib-objectid": "^0.5.0",
+    "node-red-contrib-objectid": "^0.7.1",
     "node-red-contrib-render": "^1.1.0",
     "node-red-contrib-rhea": "0.0.2",
     "node-red-contrib-xmlrpc": "^1.0.2",
@@ -39,21 +42,21 @@
     "node-red-node-aws": "^0.1.0",
     "node-red-node-email": "0.1.*",
     "node-red-node-feedparser": "0.1.*",
-    "node-red-node-mongodb": "0.0.5",
-    "node-red-node-rbe": "0.1.*",
+    "node-red-node-mongodb": "0.0.14",
+    "node-red-node-rbe": "0.2.*",
     "node-red-node-swagger": "^0.1.5",
     "node-red-node-twitter": "0.1.*",
-    "sentiment": "1.0.6",
+    "sentiment": "4.2.0",
     "underscore": "^1.8.3",
-    "when": "3.7.7",
-    "ws": "0.8.1"
+    "when": "^3.7.8",
+    "ws": "5.1.1"
   },
   "optionalDependencies": {
-    "node-red-node-serialport": "0.2.*"
+    "node-red-node-serialport": "0.6.*"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^2.4.5",
+    "chai": "^4.1.2",
+    "mocha": "^5.1.0",
     "node-red-admin": "^0.1.2"
   }
 }

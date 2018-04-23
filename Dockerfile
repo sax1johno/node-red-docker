@@ -1,4 +1,4 @@
-FROM node:argon
+FROM node:latest
 
 # Copy package.json and install dependencies
 COPY package.json /tmp/package.json
@@ -33,6 +33,9 @@ ENV FLOW_NAME $APP_NAME
 ENV MONGO_APPNAME $APP_NAME
 ENV MONGO_COLLECTION ${APP_NAME}_flows
 ENV MONGO_DATABASE_URL mongodb://db/
+ENV COUCH_APPNAME $APP_NAME
+ENV COUCH_COLLECTION ${APP_NAME}_flows
+ENV COUCH_DATABSE_URL http://couchdb
 ENV LOG_INFLUX_URL http://influx
 
 EXPOSE $PORT

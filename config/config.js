@@ -11,7 +11,7 @@
  * options can be included here.
  **/
 
-const bcrypt = require('bcrypt'),
+const bcrypt = require('bcryptjs'),
     path = require('path'),
     fs = require('fs'),
     Influx = require('influx'),
@@ -33,8 +33,11 @@ module.exports = {
   nodered: function() {
     var returnObj = {
         mongoAppname: process.env.MONGO_APPNAME,
+        couchAppname: process.env.COUCH_APPNAME,        
         mongoCollection: process.env.MONGO_COLLECTION,
+        couchCollection: process.env.COUCH_COLLECTION,
         mongoUrl: process.env.MONGO_DATABASE_URL,
+        couchUrl: process.env.COUCH_DATABASE_URL,
         // the tcp port that the Node-RED web server is listening on
         uiPort: 1880,
         // Retry time in milliseconds for MQTT connections
@@ -128,7 +131,7 @@ module.exports = {
         // The following property can be used to disable the editor. The admin API
         // is not affected by this option. To disable both the editor and the admin
         // API, use either the httpRoot or httpAdminRoot properties
-        //disableEditor: false,
+        disableEditor: process.env.DISABLE_EDITOR || false,
 
         // The following property can be used to configure cross-origin resource sharing
         // in the HTTP nodes.
@@ -272,7 +275,9 @@ module.exports = {
     if (process.env.STORAGE == "mongo") {
         returnObj.storageModule = require("./mongostorage");
     }
-    else {
+    else if (process.env.STORAGE == "couch") {
+        returnObj.storageModule = require("./couchstorage");
+    } else {
         // The file containing the flows. If not set, it defaults to flows_<hostname>.json
         returnObj.flowFile = process.env.FLOW_NAME;
         returnObj.flowFilePretty= false;
