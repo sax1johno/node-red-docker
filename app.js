@@ -8,7 +8,8 @@ var RED = require("node-red"),
     app = express(),
     environment = app.settings.env,
     // bodyParser = require('body-parser'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    cote = require('cote');
 
 var config = require("/usr/src/config/config.js");
 try {
