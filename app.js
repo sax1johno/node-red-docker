@@ -52,3 +52,36 @@ server.listen(config.main.port);
 console.log("Listening on port ", config.main.port);
 // Start the runtime
 RED.start();
+
+if (process.env.STORAGE == "couch") {
+	console.log("Listening to couch at ", redConfig.couchUrl);
+    var couch = require('nano')(redConfig.couchUrl);
+    appname = redConfig.couchAppname || require('os').hostname();
+    var dbname = redConfig.couchDb||"nodered";
+    // var follow = require('follow');
+    // follow(redConfig.couchUrl + "/" + dbname, function(error, change) {
+    // 	if (!error) {
+	   //  	console.log("Change: ", change);
+	   //  	console.log("would do a redeploy");
+	   //  	RED.nodes.loadFlows();    		
+    // 	} else {
+    // 		console.error("An error occurred:", error);
+    // 	}
+    // });
+    var db = couch.use(dbname);
+    var feed = db.follow({"since": "now"});
+
+    feed.on('change', function(change) {
+    	console.log("Change: ", change);
+    	console.log("would do a redeploy");
+    	RED.nodes.loadFlows();
+    });
+
+	feed.on('error', function(er) {
+	  console.error('Since Follow always retries on errors, this must be serious');
+	  throw er;
+	});
+
+    feed.follow();
+}
+

@@ -19,7 +19,7 @@ const bcrypt = require('bcryptjs'),
 
 var passwd = process.env.HASHED_ADMIN_PASSWORD || bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10);
 
-var title = process.env.EDITOR_TITLE || "Propl Flow Editor"
+var title = process.env.EDITOR_TITLE || "Propl Flow Editor for " + process.env.APP_NAME
 
 module.exports = {
   appName: process.env.APP_NAME,
@@ -95,14 +95,21 @@ module.exports = {
         editorTheme: {
             page: {
                 title: title
+                // css: "/usr/src/styles/propl.css"
             },
             header: {
                 title: title,
                 image: "/usr/src/images/propllight50x50.png",
-                url: process.env.TITLE || "www.propl.us"
+                url: process.env.TITLE || "https://www.propl.us"
             },
             login: {
                 image: "/usr/src/images/propl256x256.png" // a 256x256 image
+            },
+            menu: {
+                "menu-item-help": {
+                    "label": "Propl",
+                    "url": "https://docs.propl.us"
+                }
             }
         },
         // The maximum size of HTTP request that will be accepted by the runtime api.
