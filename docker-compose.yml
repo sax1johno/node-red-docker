@@ -1,41 +1,21 @@
 version: '2.0'
 services:
     node-red:
-        build: ./
+        # image: sax1johno/node-red-base
+        build: .
         # container_name: "node-red"
         ports:
             - '80'
         restart: unless-stopped
         environment:
-            - STORAGE=mongo
-            - MONGO_DATABASE_URL=mongodb://mongodb
+            - STORAGE=couch
         links:
-            - mongodb
-            - influx
+            - couchdb
         depends_on:
-            - mongodb
-            - influx
-            - rabbitmq
-    mongodb:
-        image: mongo:latest
-        container_name: "mongodb"
-        environment:
-          - MONGO_DATA_DIR=/data/db
-          - MONGO_LOG_DIR=/dev/null
-        volumes:
-          - ./data/db:/data/db
+            - couchdb
+    couchdb:
+        image: couchdb
         ports:
-            - 27017:27017
-        command: mongod --smallfiles --logpath=/dev/null # --quiet
-    influx:
-        image: influxdb:0.13
-        volumes:
-            - ./data/influxdb:/var/lib/influxdb
-        ports:
-            - "8086:8086"
-    rabbitmq:
-        image: "rabbitmq:management"
-        container_name: "rabbitmq"
-        hostname: "rmq"
-        ports:
-            - '15672:15672'
+            - '5984'
+        external_links:
+            - upstream:upstream

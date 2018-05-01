@@ -51,9 +51,9 @@ app.use(redConfig.httpNodeRoot,RED.httpNode);
 server.listen(config.main.port);
 console.log("Listening on port ", config.main.port);
 // Start the runtime
-RED.start();
 
 if (process.env.STORAGE == "couch") {
+	// var nano = require('nano')
 	console.log("Listening to couch at ", redConfig.couchUrl);
     var couch = require('nano')(redConfig.couchUrl);
     appname = redConfig.couchAppname || require('os').hostname();
@@ -69,6 +69,23 @@ if (process.env.STORAGE == "couch") {
     // 	}
     // });
     var db = couch.use(dbname);
+
+
+    // Create database if it doesn't exist.
+    couch.db.list(function(error, databases) {
+    	if (error) {
+    		console.error("Error finding databases");
+	  		throw error;
+    	}
+    	if (databases.indexOf(dbname) <0 ) {
+    		couch.db.create(dbname, function(error, body, headers) {
+    			if (error) {
+    				console.error("Unable to create new database");
+    				throw error;
+    			}
+    		});
+    	}
+    });
     var feed = db.follow({"since": "now"});
 
     feed.on('change', function(change) {
@@ -79,9 +96,9 @@ if (process.env.STORAGE == "couch") {
 
 	feed.on('error', function(er) {
 	  console.error('Since Follow always retries on errors, this must be serious');
-	  throw er;
 	});
 
     feed.follow();
 }
 
+RED.start();
