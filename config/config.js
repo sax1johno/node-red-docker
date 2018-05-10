@@ -38,6 +38,7 @@ module.exports = {
         couchCollection: process.env.COUCH_COLLECTION,
         mongoUrl: process.env.MONGO_DATABASE_URL,
         couchUrl: process.env.COUCH_DATABASE_URL,
+        pouchFile: process.env.POUCH_DATABASE_FILE,
         // the tcp port that the Node-RED web server is listening on
         uiPort: 1880,
         // Retry time in milliseconds for MQTT connections
@@ -284,6 +285,8 @@ module.exports = {
     }
     else if (process.env.STORAGE == "couch") {
         returnObj.storageModule = require("./couchstorage");
+    } else if (process.env.STORAGE == "pouch") {
+        returnObj.storageModule = require("./pouchstorage");        
     } else {
         // The file containing the flows. If not set, it defaults to flows_<hostname>.json
         returnObj.flowFile = process.env.FLOW_NAME;

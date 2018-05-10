@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:carbon
 
 # Copy package.json and install dependencies
 COPY package.json /tmp/package.json
@@ -37,6 +37,7 @@ ENV COUCH_APPNAME $APP_NAME
 ENV COUCH_COLLECTION ${APP_NAME}_flows
 ENV COUCH_DATABASE_URL http://couchdb:5984
 ENV LOG_INFLUX_URL http://influx
+ENV POUCH_DATABASE_FILE  /usr/src/workspace/flows.db
 
 EXPOSE $PORT
 WORKDIR /usr/src

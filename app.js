@@ -9,6 +9,7 @@ var RED = require("node-red"),
     environment = app.settings.env,
     // bodyParser = require('body-parser'),
     _ = require('underscore'),
+    pouch = require('pouchdb'),
     cote = require('cote');
 
 var config = require("/usr/src/config/config.js");
@@ -52,53 +53,86 @@ server.listen(config.main.port);
 console.log("Listening on port ", config.main.port);
 // Start the runtime
 
-if (process.env.STORAGE == "couch") {
-	// var nano = require('nano')
-	console.log("Listening to couch at ", redConfig.couchUrl);
-    var couch = require('nano')(redConfig.couchUrl);
-    appname = redConfig.couchAppname || require('os').hostname();
-    var dbname = redConfig.couchDb||"nodered";
-    // var follow = require('follow');
-    // follow(redConfig.couchUrl + "/" + dbname, function(error, change) {
-    // 	if (!error) {
-	   //  	console.log("Change: ", change);
-	   //  	console.log("would do a redeploy");
-	   //  	RED.nodes.loadFlows();    		
-    // 	} else {
-    // 		console.error("An error occurred:", error);
-    // 	}
+if (process.env.STORAGE == "pouch") {
+    // var couch = require('nano')(redConfig.couchUrl);
+    // appname = redConfig.couchAppname || require('os').hostname();
+    // var dbname = redConfig.couchDb||"nodered";
+    var remoteDb = new pouch(redConfig.couchUrl);
+    var couchDb = new pouch(redConfig.pouchFile);
+    // couchDb.db.list(function(error, databases) {
+        // if (error) {
+        //     console.error("Error finding databases");
+        //     throw error;
+        // }
+        // if (databases.indexOf(dbname) <0 ) {
+    // couchDb.db.create(dbname, function(error, body, headers) {
+    //     if (error) {
+    //         console.error("Unable to create new database");
+    //         throw error;
+    //     }
     // });
-    var db = couch.use(dbname);
+        // }
+    // });
+    // do one way, one-off sync from the server until completion
+    // couchDb.replicate.from(remoteDb).on('complete', function(info) {
+      // then two-way, continuous, retriable sync
+        couchDb.sync(remoteDb, {
+          live: true,
+          retry: true
+        }).on('change', function (change) {
+            console.log("Detected change in the database");
+            RED.nodes.loadFlows();
+        // }).on('paused', function (info) {
+          // replication was paused, usually because of a lost connection
+          // console.error("Replication is paused");
+        // }).on('active', function (info) {
+          // replication was resumed
+          // console.log("Replication was resumed from pause");
+        }).on('error', function (err) {
+          // totally unhandled error (shouldn't happen)
+          console.error("An unhandled error occured:", err);
+        });
+    // }).on('error', function(err) {
+        // console.error("Initial replication sync error occurred", err);
+    // });;
 
-
-    // Create database if it doesn't exist.
-    couch.db.list(function(error, databases) {
-    	if (error) {
-    		console.error("Error finding databases");
-	  		throw error;
-    	}
-    	if (databases.indexOf(dbname) <0 ) {
-    		couch.db.create(dbname, function(error, body, headers) {
-    			if (error) {
-    				console.error("Unable to create new database");
-    				throw error;
-    			}
-    		});
-    	}
-    });
-    var feed = db.follow({"since": "now"});
-
-    feed.on('change', function(change) {
-    	console.log("Change: ", change);
-    	console.log("would do a redeploy");
-    	RED.nodes.loadFlows();
-    });
-
-	feed.on('error', function(er) {
-	  console.error('Since Follow always retries on errors, this must be serious');
-	});
-
-    feed.follow();
 }
+// 	// var nano = require('nano')
+// 	console.log("Listening to couch at ", redConfig.couchUrl);
+//     var couch = require('nano')(redConfig.couchUrl);
+//     appname = redConfig.couchAppname || require('os').hostname();
+//     var dbname = redConfig.couchDb||"nodered";
+//     // var follow = require('follow');
+//     // follow(redConfig.couchUrl + "/" + dbname, function(error, change) {
+//     // 	if (!error) {
+// 	   //  	console.log("Change: ", change);
+// 	   //  	console.log("would do a redeploy");
+// 	   //  	RED.nodes.loadFlows();    		
+//     // 	} else {
+//     // 		console.error("An error occurred:", error);
+//     // 	}
+//     // });
+//     var db = couch.use(dbname);
+
+
+//     // Create database if it doesn't exist.
+//     var feed = db.follow({"since": "now"});
+
+//     feed.on('change', function(change) {
+//     	console.log("Change: ", change);
+//     	console.log("would do a redeploy");
+//     	RED.nodes.loadFlows();
+//     });
+
+// 	feed.on('error', function(er) {
+// 	  console.error('Since Follow always retries on errors, this must be serious');
+// 	});
+
+//     feed.follow();
+// }
 
 RED.start();
+process.on('unhandledRejection', error => {
+    // Handles this for now so the error message goes away.
+  console.log('unhandledRejection', error);
+});
