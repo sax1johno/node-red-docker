@@ -52,9 +52,7 @@ function bconv(credentials) {
         // var newId = id.replace(".", "_");
         var newId = id.replace("$", "_$");
         bconvs[newId] = credentials[id];
-        console.log(newId);
     }
-    console.log("returning from bconv");
     return bconvs;
 }
 
@@ -165,19 +163,9 @@ function timeoutWrap(func) {
 }
 
 function getFlows() {
-    console.log("Getting flows");
     var defer = when.defer();
     collection().then(function(collection) {
-        collection.find({appname:appname}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-        // collection.find({appname:appname}).sort({$natural:-1}).limit(1).exec(function(err, doc) {
-        // })
-        // collection.findOne({appname:appname},function(err,doc) {
-            doc = doc[0];
+        collection.findOne({appname:appname},function(err,doc) {
             if (err) {
                 defer.reject(err);
             } else {
@@ -198,39 +186,13 @@ function saveFlows(flows) {
     console.log("saveFlows");
     var defer = when.defer();
     collection().then(function(collection) {
-        collection.find({appname:appname}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-            doc = doc[0];
+        collection.update({appname:appname},{$set:{appname:appname,flow:flows}},{upsert:true},function(err) {
             if (err) {
-                console.log(err);
                 defer.reject(err);
             } else {
-                // defer.resolve();
-                // doc.credentials = bconv(credentials);
-                doc.appname = appname;
-                doc.flow = flows;
-                delete doc._id;
-                collection.insert(doc, function(err, doc) {
-                    if (err) {
-                        console.log(err);
-                        defer.reject(err);
-                    } else {
-                        defer.resolve();
-                    }
-                });
+                defer.resolve();
             }
         })
-        // collection.update({appname:appname},{$set:{appname:appname,flow:flows}},{upsert:true},function(err) {
-        //     if (err) {
-        //         defer.reject(err);
-        //     } else {
-        //         defer.resolve();
-        //     }
-        // })
     }).otherwise(function(err) {
         defer.reject(err);
     });
@@ -238,17 +200,9 @@ function saveFlows(flows) {
 }
 
 function getCredentials() {
-    console.log("Get Credentials");    
     var defer = when.defer();
     collection().then(function(collection) {
-        collection.find({appname:appname}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-        // collection.findOne({appname:appname},function(err,doc) {
-            doc = doc[0];
+        collection.findOne({appname:appname},function(err,doc) {
             if (err) {
                 defer.reject(err);
             } else {
@@ -269,31 +223,11 @@ function saveCredentials(credentials) {
     console.log("credentials are ", credentials);
     var defer = when.defer();
     collection().then(function(collection) {
-        // collection.findOne({appname: appname}, function)
-        collection.find({appname:appname}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-            doc = doc[0];
+        collection.update({appname:appname},{$set: {"credentials":bconv(credentials)}},{upsert:true},function(err) {
             if (err) {
-                console.log(err);
                 defer.reject(err);
             } else {
-                // defer.resolve();
-                console.log("Saving Credentials");
-                doc.credentials = bconv(credentials);
-                delete doc._id;
-                console.log(doc);
-                collection.insert(doc, function(err, doc) {
-                    if (err) {
-                        console.log(err);
-                        defer.reject(err);
-                    } else {
-                        defer.resolve();
-                    }
-                });
+                defer.resolve();
             }
         })
     }).otherwise(function(err) {
@@ -303,17 +237,9 @@ function saveCredentials(credentials) {
 }
 
 function getSettings () {
-    console.log("Get Settings");
     var defer = when.defer();
     collection().then(function(collection) {
-        collection.find({appname:appname}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-        // collection.findOne({appname:appname},function(err,doc) {
-            doc = doc[0];
+        collection.findOne({appname:appname},function(err,doc) {
             if (err) {
                 defer.reject(err);
             } else {
@@ -333,41 +259,12 @@ function getSettings () {
 function saveSettings (settings) {
     var defer = when.defer();
     collection().then(function(collection) {
-        collection.find({appname:appname}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-            // doc = doc[0];
+        collection.update({appname:appname},{$set: {"settings":bconv(settings)}},{upsert:true},function(err) {
             if (err) {
                 console.log(err);
                 defer.reject(err);
             } else {
-                // defer.resolve();
-                // console.log("Saving settings in doc", doc);
-                // var docObject = doc.toObject();
-                var docObject = {};
-                for (var key in doc) {
-                    docObject[key] = doc[key];
-                }
-                docObject.settings = bconv(settings);
-                delete docObject._id;
-                console.log("doc before saving settings", docObject);
-
-                // Copied over because of Rangeerror
-                // see https://stackoverflow.com/questions/24466366/mongoose-rangeerror-maximum-call-stack-size-exceeded
-                collection.insert(docObject, function(err, doc) {
-                    console.log("Should have inserted doc");
-                    if (err) {
-                        console.log("errored out");
-                        console.log(err);
-                        defer.reject(err);
-                    } else {
-                        console.log("Resolved settings");
-                        defer.resolve();
-                    }
-                });
+                defer.resolve();
             }
         })
     }).otherwise(function(err) {
@@ -411,14 +308,7 @@ function getAllFlows() {
 function getFlow(fn) {
     var defer = when.defer();
     libCollection().then(function(libCollection) {
-        libCollection.find({appname:appname, type: 'flow', path: fn}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-            doc = doc[0];
-        // libCollection.findOne({appname:appname, type:'flow', path:fn},function(err,doc) {
+        libCollection.findOne({appname:appname, type:'flow', path:fn},function(err,doc) {
             if (err) {
                 defer.reject(err);
             } else if (doc&& doc.data) {
@@ -436,41 +326,13 @@ function getFlow(fn) {
 function saveFlow(fn,data) {
     var defer = when.defer();
     libCollection().then(function(libCollection) {
-        libCollection.find({appname:appname, type: "flow", path: fn}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-            doc = doc[0];
-            // ).sort({$natural:-1}).limit(1).exec(function(err, doc) {
+        libCollection.update({appname:appname,type:'flow',path:fn},{appname:appname,type:'flow',path:fn,data:data},{upsert:true},function(err) {
             if (err) {
-                console.log(err);
                 defer.reject(err);
             } else {
-                // defer.resolve();
-                doc.appname = appname;
-                doc.type='flow';
-                doc.path = fn;
-                doc.data = data;
-                delete doc._id;
-                collection.insert(doc, function(err, doc) {
-                    if (err) {
-                        console.log(err);
-                        defer.reject(err);
-                    } else {
-                        defer.resolve();
-                    }
-                });
+                defer.resolve();
             }
-        })
-        // libCollection.update({appname:appname,type:'flow',path:fn},{appname:appname,type:'flow',path:fn,data:data},{upsert:true},function(err) {
-        //     if (err) {
-        //         defer.reject(err);
-        //     } else {
-        //         defer.resolve();
-        //     }
-        // });
+        });
     }).otherwise(function(err) {
         defer.reject(err);
     });
@@ -479,16 +341,8 @@ function saveFlow(fn,data) {
 
 function getLibraryEntry(type,path) {
     var defer = when.defer();
-    libCollection().then(function(libCollection) {        
-        // libCollection.find({appname:appname, type: type, path: path}).sort({$natural:-1}).limit(1).exec(function(err, doc) {        
-        // libCollection.findOne({appname:appname, type:type, path:path}, function(err,doc) {
-        libCollection.find({appname:appname, type: type, path: path}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-            doc = doc[0];
+    libCollection().then(function(libCollection) {
+        libCollection.findOne({appname:appname, type:type, path:path}, function(err,doc) {
             if (err) {
                 defer.reject(err);
             } else if (doc) {
@@ -531,28 +385,12 @@ function getLibraryEntry(type,path) {
 function saveLibraryEntry(type,path,meta,body) {
     var defer = when.defer();
     libCollection().then(function(libCollection) {
-        libCollection.find({appname:appname, type: type, path: path}, {
-            sort: {
-                $natural:-1
-            },
-            limit: 1
-        }, function(err, doc) {
-            doc = doc[0];
-        // libCollection.find({appname:appname, type:type, path: path}).sort({$natural:-1}).limit(1).exec(function(err, doc) {
-            doc.appname = appname;
-            doc.type = type;
-            doc.path = path;
-            doc.meta = meta;
-            doc.data = body;
-            delete doc._id;
-            collection.insert(doc, function(err, doc) {
-        // libCollection.update({appname:appname,type:type,path:path},{appname:appname,type:type,path:path,meta:meta,data:body},{upsert:true},function(err) {
-                if (err) {
-                    defer.reject(err);
-                } else {
-                    defer.resolve();
-                }
-            });
+        libCollection.update({appname:appname,type:type,path:path},{appname:appname,type:type,path:path,meta:meta,data:body},{upsert:true},function(err) {
+            if (err) {
+                defer.reject(err);
+            } else {
+                defer.resolve();
+            }
         });
     }).otherwise(function(err) {
         defer.reject(err);
