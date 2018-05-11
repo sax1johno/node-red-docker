@@ -22,7 +22,7 @@
     "influx": "^5.0.7",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.14",
-    "mongodb": "^3.0.6",
+    "mongodb": "^2.2.26",
     "nano": "^6.4.3",
     "node-red": "^0.18.4",
     "node-red-contrib-auth": "^0.1.5",
