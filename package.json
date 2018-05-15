@@ -1,6 +1,6 @@
 {
   "name": "JWO_NodeRedBase",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A Node-RED base application",
   "main": "app.js",
   "scripts": {
