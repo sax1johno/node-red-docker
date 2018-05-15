@@ -1,0 +1,39 @@
+{
+  "flow": [
+    {
+      "id": "87a0677f.477d18",
+      "type": "tab",
+      "label": "Default",
+      "disabled": false,
+      "info": ""
+    },
+    {
+      "id": "39483774.83d548",
+      "type": "http in",
+      "z": "87a0677f.477d18",
+      "name": "",
+      "url": "/",
+      "method": "get",
+      "upload": false,
+      "swaggerDoc": "",
+      "x": 240,
+      "y": 220,
+      "wires": [
+        [
+          "b409b335.9030f"
+        ]
+      ]
+    },
+    {
+      "id": "b409b335.9030f",
+      "type": "http response",
+      "z": "87a0677f.477d18",
+      "name": "",
+      "statusCode": "",
+      "headers": {},
+      "x": 720,
+      "y": 240,
+      "wires": []
+    }
+  ]
+}
