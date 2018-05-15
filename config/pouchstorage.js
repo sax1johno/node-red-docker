@@ -296,8 +296,10 @@ var pouchstorage = {
             console.log("Current settings: ", doc);
             flowDb.put(doc,function(err,db) {
                 if (err) {
-                    console.log("Rejecting saving settings");
-                    reject(err.toString());
+                    // Ignore conflicts - there were already settings so we'll use those.
+                    // reject(err.toString());
+                    console.warn("Conflict detected when loading settings.  Using existing settings");
+                    resolve();
                 } else {
                     currentSettingsRev = db.rev;
                     resolve();
