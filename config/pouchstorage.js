@@ -19,6 +19,7 @@ var PouchDB = require('pouchdb');
 var when = require('when');
 var util = require('util');
 var fs = require('fs');
+var _ = require("underscore");
 
 var settings;
 var appname;
@@ -34,8 +35,8 @@ function prepopulateFlows(resolve) {
     var key = appname+"/"+"flow";
     util.log("prepopulateFlows");
     flowDb.get(key,function(err,doc) {
+        var promises = [];        
         if (err) {
-            var promises = [];
             if (fs.existsSync(__dirname+"/defaults/flow.json")) {
                 try {
                     var flow = fs.readFileSync(__dirname+"/defaults/flow.json","utf8");
@@ -87,6 +88,27 @@ function prepopulateFlows(resolve) {
                 resolve();
             });
         } else {
+            // Sync and then go.
+            promises.push(
+                when.promise(
+                    function(rej, resolv) {
+                        // do one way, one-off sync from the server until completion
+                        couchDb
+                            .replicate
+                            .from(remoteDb)
+                            .on('complete', function(info) {
+                                resolv(info);
+                            }).on('error', function(err) {
+                                rej(info);
+                            });
+                    }
+                )
+            );
+
+            // promises.push();
+            when.settle(promises).then(function() {
+                resolve();
+            });            
             // Flows already exist - leave them alone
             resolve();
         }
@@ -98,20 +120,34 @@ function prepopulateFlows(resolve) {
 var pouchstorage = {
     init: function(_settings) {
         util.log("init");
-        pouchstorage.getSettings().then(function(doc) {
-            currentSettingsRev = doc._rev;
-            // settings = doc;
-            // settings = _settings;
-        }, function(err) {
-            // ignore for now.
-        });
         settings = _settings;
-        flowDb = new PouchDB(settings.pouchFile);        
+        // console.log("settings = ", settings);
+        flowDb = new PouchDB(settings.pouchFile);
         // var couchDb = {
         //     db: pouchDb
         // }
         appname = settings.couchAppname || require('os').hostname();
         var dbname = settings.couchDb||"nodered";
+        pouchstorage.getSettings().then(function(doc) {
+            if (doc.status == 404) {
+                console.log("Settings were not found");
+            } else {
+                if (_.has(doc, "_rev")) {
+                    currentSettingsRev = doc._rev;
+                }
+                if (_.has(doc.settings, "_credentialSecret")) {
+                    settings._credentialSecret = doc.settings._credentialSecret;
+                } else {
+                    settings._credentialSecret = settings.credentialSecret;
+                }
+            }
+            // settings = doc;
+            // settings = _settings;
+            // console.log("secret = ", settings._credentialSecret);
+        }, function(err) {
+            // ignore for now.
+            console.log("error getting settings initially: ", err);
+        });        
 
         return when.promise(function(resolve,reject) {
         //     prepopulateFlows(resolve);
@@ -159,7 +195,7 @@ var pouchstorage = {
                     if (err) {
                         if (err.status == 409) {
                             // Already have a view, don't fail.
-                            console.log("Views already existed");
+                            // console.log("Views already existed");
                             prepopulateFlows(resolve);
                         } else {
                             reject("Failed to create view: "+err);                              
@@ -223,12 +259,14 @@ var pouchstorage = {
 
     getCredentials: function() {
         var key = appname+"/"+"credential";
-        util.log("getCredentials");        
+        util.log("getCredentials");
         return when.promise(function(resolve,reject) {
             flowDb.get(key,function(err,doc) {
+                console.log(err, doc);
                 if (err) {
                     if (err.status != 404) {
                         console.log("Rejecting getCredentials");
+                        console.error(err);
                         reject(err.toString());
                     } else {
                         resolve({});
@@ -254,6 +292,7 @@ var pouchstorage = {
             flowDb.put(doc,function(err,db) {
                 if (err) {
                     console.log("Rejecting saveCredentials");
+                    console.log(err);
                     reject(err.toString());
                 } else {
                     currentCredRev = db.rev;
@@ -265,7 +304,7 @@ var pouchstorage = {
 
     getSettings: function() {
         var key = appname+"/"+"settings";
-        util.log("getSettings");
+        util.log("getSettings: ", key);
         return when.promise(function(resolve,reject) {
             flowDb.get(key,function(err,doc) {
                 if (err) {

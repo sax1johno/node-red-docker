@@ -39,7 +39,7 @@ module.exports = {
         mongoUrl: process.env.MONGO_DATABASE_URL,
         couchUrl: process.env.COUCH_DATABASE_URL,
         pouchFile: process.env.POUCH_DATABASE_FILE,
-        credentialSecret: process.env.CREDENTIALS_SECRET,
+        credentialSecret: process.env.CREDENTIALS_SECRET || false,
         // the tcp port that the Node-RED web server is listening on
         uiPort: 1880,
         // Retry time in milliseconds for MQTT connections
