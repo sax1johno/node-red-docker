@@ -48,6 +48,7 @@
     "node-red-node-swagger": "^0.1.5",
     "node-red-node-twitter": "0.1.*",
     "pouchdb": "^6.4.3",
+    "pouchdb-upsert": "^2.2.0",
     "sentiment": "4.2.0",
     "underscore": "^1.8.3",
     "when": "^3.7.8",

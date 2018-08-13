@@ -123,6 +123,12 @@ var pouchstorage = {
         settings = _settings;
         // console.log("settings = ", settings);
         flowDb = new PouchDB(settings.pouchFile);
+
+        // use the "every document is a delta"
+        // flowDb.plugin(require('delta-pouch'));
+        // flowDb.plugin(require('pouchdb-upsert'));
+        // Add "upsert".
+
         // var couchDb = {
         //     db: pouchDb
         // }
