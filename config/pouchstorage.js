@@ -252,9 +252,14 @@ var pouchstorage = {
             }
             flowDb.put(doc,function(err,db) {
                 if (err) {
-                    console.log(err);
-                    console.log("Rejecting SaveFlows");
-                    reject(err.toString());
+                    if (err.name == "conflict") {
+                        console.error("Save Flows failed because of a conflict");
+                        console.log(doc);
+                    } else {
+                        console.log(err);
+                        console.log("Rejecting SaveFlows");
+                        reject(err.toString());                        
+                    }
                 } else {
                     currentFlowRev = db.rev;
                     resolve();
@@ -289,22 +294,44 @@ var pouchstorage = {
 
     saveCredentials: function(credentials) {
         var key = appname+"/"+"credential";
-        util.log("saveCredentials");                
+        util.log("saveCredentials");
         return when.promise(function(resolve,reject) {
-            var doc = {_id:key,credentials:credentials};
-            if (currentCredRev) {
-                doc._rev = currentCredRev;
-            }
-            flowDb.put(doc,function(err,db) {
-                if (err) {
-                    console.log("Rejecting saveCredentials");
-                    console.log(err);
-                    reject(err.toString());
-                } else {
-                    currentCredRev = db.rev;
-                    resolve();
+            function retryUntilWritten(doc) {
+              return flowDb.get(key).then(function (origDoc) {
+                doc._rev = origDoc._rev;
+                return flowDb.put({credentials:credentials});
+              }).catch(function (err) {
+                if (err.status === 409) {
+                  return retryUntilWritten(doc);
+                } else { // new doc
+                  return flowDb.put(doc);
                 }
-            });
+              });
+            }
+
+            // var doc = {_id:key,credentials:credentials};
+            // if (currentCredRev) {
+            //     doc._rev = currentCredRev;
+            // }
+            // flowDb.put(doc,function(err,db) {
+            //     if (err) {
+            //         if (err.name == "conflict") {
+            //             console.error("Rejecting saveCredentials because of conflict");
+            //             console.log(credentials);
+            //             console.log(currentCredRev);
+            //             console.log(doc._rev);
+            //             resolve();
+            //             // reject(err.toString);
+            //         } else {
+            //             console.log("Rejecting saveCredentials");
+            //             console.log(err);
+            //             reject(err.toString());                        
+            //         }
+            //     } else {
+            //         currentCredRev = db.rev;
+            //         resolve();
+            //     }
+            // });
         });
     },
 
@@ -333,24 +360,37 @@ var pouchstorage = {
     saveSettings: function(settings) {
         var key = appname+"/"+"settings";
         util.log("saveSettings");
-        return when.promise(function(resolve,reject) {
-            var doc = {_id:key,settings:settings};
-            if (currentSettingsRev) {
-                doc._rev = currentSettingsRev;
+        function retryUntilWritten(doc) {
+          return flowDb.get(key).then(function (origDoc) {
+            doc._rev = origDoc._rev;
+            return flowDb.put({credentials:credentials});
+          }).catch(function (err) {
+            if (err.status === 409) {
+              return retryUntilWritten(doc);
+            } else { // new doc
+              return flowDb.put(doc);
             }
-            console.log("Current settings: ", doc);
-            flowDb.put(doc,function(err,db) {
-                if (err) {
-                    // Ignore conflicts - there were already settings so we'll use those.
-                    // reject(err.toString());
-                    console.warn("Conflict detected when loading settings.  Using existing settings");
-                    resolve();
-                } else {
-                    currentSettingsRev = db.rev;
-                    resolve();
-                }
-            });
-        });
+          });
+        }
+
+        // return when.promise(function(resolve,reject) {
+        //     var doc = {_id:key,settings:settings};
+        //     if (currentSettingsRev) {
+        //         doc._rev = currentSettingsRev;
+        //     }
+        //     console.log("Current settings: ", doc);
+        //     flowDb.put(doc,function(err,db) {
+        //         if (err) {
+        //             // Ignore conflicts - there were already settings so we'll use those.
+        //             // reject(err.toString());
+        //             console.warn("Conflict detected when loading settings.  Using existing settings");
+        //             resolve();
+        //         } else {
+        //             currentSettingsRev = db.rev;
+        //             resolve();
+        //         }
+        //     });
+        // });
     },
 
     getAllFlows: function() {
