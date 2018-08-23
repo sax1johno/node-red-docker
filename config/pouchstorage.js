@@ -35,7 +35,7 @@ function prepopulateFlows(resolve) {
     var key = appname+"/"+"flow";
     util.log("prepopulateFlows");
     flowDb.get(key,function(err,doc) {
-        var promises = [];        
+        var promises = [];
         if (err) {
             if (fs.existsSync(__dirname+"/defaults/flow.json")) {
                 try {
