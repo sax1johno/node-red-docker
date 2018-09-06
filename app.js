@@ -83,6 +83,14 @@ if (process.env.STORAGE == "pouch") {
 
 }
 
+app.use(function(req, res, next) {
+  res.status(404).sendFile('/usr/src/workspace/404.html');
+});
+
+app.use(function(err, req, res, next) {
+  res.status(500).sendFile('/usr/src/workspace/500.html');
+});
+
 RED.start();
 process.on('unhandledRejection', error => {
     // Handles this for now so the error message goes away.

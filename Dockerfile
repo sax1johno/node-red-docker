@@ -6,11 +6,12 @@ RUN cd /tmp && npm install
 
 # copy the source code and webapp to the webapp folder, along with already-installed node modules.
 RUN mkdir -p /usr/src && cp -a /tmp/node_modules /usr/src/
-RUN mkdir -p /usr/src/config && mkdir -p /usr/src/public && mkdir -p /usr/src/flows
+RUN mkdir -p /usr/src/config && mkdir -p /usr/src/public && mkdir -p /usr/src/flows && mkdir -p /temp/public
 
 COPY package.json /usr/src
 COPY app.js /usr/src
-COPY public /usr/src/workspace
+COPY start.sh /usr/src
+COPY public /tmp/public
 COPY config /usr/src/config
 COPY flows /usr/src/flows
 COPY images /usr/src/images
@@ -43,4 +44,4 @@ ENV POUCH_DATABASE_FILE  /usr/src/flows
 EXPOSE $PORT
 WORKDIR /usr/src
 
-CMD ["npm", "start"]
+CMD ["bash", "start.sh"]
