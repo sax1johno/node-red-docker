@@ -88,6 +88,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
+  console.log(err);
   res.status(500).sendFile('/usr/src/workspace/500.html');
 });
 
