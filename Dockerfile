@@ -18,6 +18,8 @@ COPY images /usr/src/images
 
 VOLUME /usr/src/flows
 VOLUME /usr/src/workspace
+RUN ln -s /usr/src/workspace /workspace
+
 
 ENV PORT 80
 ENV APP_NAME myapp
@@ -42,9 +44,6 @@ ENV POUCH_DATABASE_FILE  /usr/src/flows
 ENV FLOW_STORAGE_DIRECTORY /usr/src/workspace
 ENV FLOW_FILE ${APP_NAME}_flows.json
 ENV NODE_INSTALL_DIR /usr/src/workspace
-
-
-# ENV CREDENTIALS_SECRET abc8d4a33fed284a219ff37a8013aa08bcf350940dd16025b52a6c9c2e27748e
 
 EXPOSE $PORT
 WORKDIR /usr/src
