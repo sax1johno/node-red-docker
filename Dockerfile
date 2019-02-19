@@ -29,6 +29,7 @@ ENV HTTP_ADMIN_ROOT /system/admin
 ENV HTTP_NODE_ROOT /
 ENV ADMIN_USERNAME admin
 ENV ADMIN_PASSWORD changeme
+ENV AUTH_USERS "[{username: 'admin',password: 'changeme',permissions: '*'}]"
 ENV LOG_LEVEL debug
 ENV LOG_METRICS ""
 ENV LOG_AUDIT ""
@@ -44,6 +45,12 @@ ENV POUCH_DATABASE_FILE  /usr/src/flows
 ENV FLOW_STORAGE_DIRECTORY /usr/src/workspace
 ENV FLOW_FILE ${APP_NAME}_flows.json
 ENV NODE_INSTALL_DIR /usr/src/workspace
+ENV PROJECTS ""
+ENV AUTH_GITHUB ""
+ENV AUTH_GITHUB_USERS_JSON "[{username: 'your_admin_user',permissions: ['*']}]"
+ENV AUTH_GITHUB_CLIENT_ID ""
+ENV AUTH_GITHUB_CLIENT_SECRET ""
+ENV AUTH_GITHUB_BASE_URL ""
 
 EXPOSE $PORT
 WORKDIR /usr/src

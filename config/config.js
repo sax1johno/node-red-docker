@@ -17,7 +17,7 @@ const bcrypt = require('bcryptjs'),
     Influx = require('influx'),
     os = require('os');
 
-var passwd = process.env.HASHED_ADMIN_PASSWORD || bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10);
+// var passwd = process.env.HASHED_ADMIN_PASSWORD || bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10);
 
 var title = process.env.EDITOR_TITLE || "Propl Flow Editor for " + process.env.APP_NAME
 
@@ -85,14 +85,6 @@ module.exports = {
         // property can be used. See http://nodered.org/docs/security.html for details.
 
         // adminAuth: require("./user_authentication")(seneca),
-        adminAuth: {
-            type: "credentials",
-            users: [{
-                username: process.env.ADMIN_USERNAME,
-                password: passwd,
-                permissions: "*"
-            }]
-        },
 
         editorTheme: {
             page: {
@@ -305,6 +297,34 @@ module.exports = {
     if (process.env.LOG_METRICS) {
         returnObj.logging.console.metrics = true;
     }
+
+    if (process.env.PROJECTS) {
+        returnObj.editorTheme.projects = {
+            "enabled": true
+        }
+    }
+
+    if (process.env.AUTH_GITHUB) {
+        let users = JSON.parse(process.env.AUTH_GITHUB_USERS_JSON);
+        returnObj.adminAuth = require('node-red-auth-github')({
+            clientID: process.env.AUTH_GITHUB_CLIENT_ID,
+            clientSecret: process.env.AUTH_GITHUB_CLIENT_SECRET,
+            baseURL: process.env.AUTH_GITHUB_BASE_URL,
+            users: users
+        });
+
+    } else {
+        let users = JSON.parse(process.env.AUTH_USERS);
+        for (var i = 0; i < users.length; i++) {
+            users[i].password = bcrypt.hashSync(users[i].password, 10);
+        }
+        returnObj.adminAuth = {
+            type: "credentials",
+            users: users
+        }
+    }
+
+
     
     return returnObj;
   }

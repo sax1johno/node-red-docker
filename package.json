@@ -1,5 +1,5 @@
 {
-  "name": "JWO_NodeRedBase",
+  "name": "Propl_NodeRedBase",
   "version": "1.8.4",
   "description": "A Node-RED base application",
   "main": "app.js",
