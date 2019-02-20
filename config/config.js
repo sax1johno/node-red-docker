@@ -166,6 +166,13 @@ module.exports = {
             moment: require('moment-timezone'),
             require: require
         },
+
+        contextStorage: {
+           default: {
+               module: "localfilesystem"
+           }
+        },
+
         // can be accessed in a function block as:
         //    context.global.os
 
