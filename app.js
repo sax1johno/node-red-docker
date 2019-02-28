@@ -94,7 +94,8 @@ app.use(function(err, req, res, next) {
 RED.start();
 process.on('unhandledRejection', error => {
     // Handles this for now so the error message goes away.
-  console.log('unhandledRejection', error);
+  console.error('unhandledRejection', error);
+  RED.log.error(error);
   // Exit the process on unhandled rejection, which should restart with auto-healing enabled.
-  process.exit();
+  // process.exit();
 });

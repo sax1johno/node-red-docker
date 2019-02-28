@@ -33,6 +33,9 @@ Below is a list of the environment variables you can use to configure the base i
 | COUCH_COLLECTION | ${APP_NAME}_flows | Any valid CouchDB collection name | Specifies which CouchDB or PouchDB collection to store the flows in for this application.  Defaults to the name of your application with _flows afterward, so by default all applications store their flows in a different collection.  If you're using PouchDB, this is also the name of the Pouch DB file.
 | COUCH_DATABASE_URL | http://couchdb:5984/${COUCH_COLLECTION} | Any Valid URI or CouchDB connection string | Specifies a connection string for connecting to CouchDB.  By default, assumes there is a linked container with a service called "couchdb" running Couch.  This can be changed to any valid CouchDB database connection string.  If the STORAGE variable is POUCH, then this is the path of the CouchDB database that PouchDB syncs with.
 | USERDIR | /usr/src/flows | Any absolute path (URI) | Specifies the location in the file system that installed nodes and flows will be saved.  Mount this in a persistent storage area to make installed modules and saved flows persist across instances
+| PROJECTS | "" | Any value other than an empty string.  Enables project support with git version control.
+| AUTH_USERS | "[{\"username\": \"admin\",\"password\": \"changeme\",\"permissions\": \"*\"}]"| A JSON array in string format with the users, passwords, and permissions enabled for the user. Passwords are automatically encrypted on startup.
+ 
 
 # LICENSE
 MIT License (see LICENSE file for detials).  Copyright (C) 2017, John O'Connor
