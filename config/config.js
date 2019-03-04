@@ -296,7 +296,7 @@ module.exports = {
     } else {
         // The file containing the flows. If not set, it defaults to flows_<hostname>.json
         returnObj.flowFile = process.env.FLOW_FILE;
-        returnObj.flowFilePretty= false;
+        returnObj.flowFilePretty= true;
     }
     if (process.env.LOG_AUDIT) {
         returnObj.logging.console.audit = true;
