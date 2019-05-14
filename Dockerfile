@@ -14,6 +14,7 @@ COPY start.sh /usr/src
 COPY public /tmp/public
 COPY config /usr/src/config
 COPY flows /usr/src/flows
+COPY styles /usr/src/styles
 COPY images /usr/src/images
 
 VOLUME /usr/src/flows

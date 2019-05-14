@@ -89,7 +89,6 @@ module.exports = {
         editorTheme: {
             page: {
                 title: title
-                // css: "/usr/src/styles/propl.css"
             },
             header: {
                 title: title,
@@ -310,6 +309,11 @@ module.exports = {
             "enabled": true
         }
     }
+    
+    // TODO: Make themes selectable with environment variable.
+    // For now, dark theme is the default.    
+    returnObj.editorTheme.page.css = "/usr/src/styles/propl-dark/midnight.css";
+    returnObj.editorTheme.page.scripts = "/usr/src/styles/propl-dark/theme-tomorrow.js"
 
     if (process.env.AUTH_GITHUB) {
         let users = JSON.parse(process.env.AUTH_GITHUB_USERS_JSON);
