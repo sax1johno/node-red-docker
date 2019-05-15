@@ -8,19 +8,11 @@ var RED = require("node-red"),
     app = express(),
     environment = app.settings.env,
     // bodyParser = require('body-parser'),
-    _ = require('underscore'),
+    _ = require('lodash'),
     pouch = require('pouchdb');
 
 var config = require("/usr/src/config/config.js");
-try {
-	var userConfig = require("/usr/src/workspace/config.js");
-	config = _.extend(config, userConfig);
-	console.info("Used User config file");
-} catch (e) {
-	console.info(e);
-	// Do nothing - the user never supplied a "userConfig".
-	console.info("User did not supply a configuration file");
-}
+
 
 app.get("/healthcheck", function(req, res) {
     res.status(200).send({"status": "healthy"});
@@ -33,6 +25,19 @@ var server = http.createServer(app);
 
 var redConfig = config.nodered();
 console.log("userDir = ", redConfig.userDir);
+
+try {
+  var userConfig = require("/usr/src/workspace/config.js");
+  _.merge(redConfig, userConfig);
+  console.info("Used User config file");
+  console.log(redConfig);
+} catch (e) {
+  console.info(e);
+  // Do nothing - the user never supplied a "userConfig".
+  console.info("User did not supply a configuration file");
+}
+
+
 
 // Initialise the runtime with a server and settings
 console.log("Node red config = ", redConfig);
