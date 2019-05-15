@@ -28,7 +28,7 @@ console.log("userDir = ", redConfig.userDir);
 
 try {
   var userConfig = require("/usr/src/workspace/config.js");
-  _.merge(redConfig, userConfig);
+  redConfig = userConfig(redConfig);
   console.info("Used User config file");
   console.log(redConfig);
 } catch (e) {
