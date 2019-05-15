@@ -20,4 +20,6 @@ if [ ! -f /usr/src/workspace/500.html ]
 		cp /tmp/public/500.html /usr/src/workspace/500.html
 fi
 
+cp /usr/src/config/config-override.js /usr/src/workspace/config.js
+
 npm start
