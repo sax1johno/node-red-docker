@@ -8,5 +8,12 @@ module.exports  = function(config) {
 	// config.editorTheme.header.title = "Testing TEST TEST";
 	// config.swagger.template.info.title = "My Swagger Title";
 	// config.swagger.template.info.version = "1.0";
+	// config.httpNodeMiddleware = function(req,res,next) { 
+    //	// Perform any processing on the request.
+    //	// Be sure to call next() if the request should be passed
+    //	// to the relevant HTTP In node.
+	//};
+}
+
 	return config;
 };

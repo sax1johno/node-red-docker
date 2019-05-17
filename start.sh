@@ -25,4 +25,9 @@ if [ ! -f /usr/src/workspace/config.js ]
 		cp /usr/src/config/config-override.js /usr/src/workspace/config.js
 fi
 
-npm start
+if [ -f /usr/src/workspace/package.json ]
+then
+	cp /usr/src/workspace/package.json /tmp/package.json && cd /tmp && npm install && cp -a /tmp/node_modules /usr/src/ 
+fi
+
+cd /usr/src && npm start
