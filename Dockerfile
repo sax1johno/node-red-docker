@@ -52,6 +52,7 @@ ENV AUTH_GITHUB_USERS_JSON "[{\"username\": \"your_admin_user\",\"permissions\":
 ENV AUTH_GITHUB_CLIENT_ID ""
 ENV AUTH_GITHUB_CLIENT_SECRET ""
 ENV AUTH_GITHUB_BASE_URL ""
+ENV NODE_ENV ""
 
 EXPOSE $PORT
 WORKDIR /usr/src

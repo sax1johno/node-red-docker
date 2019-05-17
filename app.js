@@ -29,15 +29,14 @@ console.log("userDir = ", redConfig.userDir);
 try {
   var userConfig = require("/usr/src/workspace/config.js");
   redConfig = userConfig(redConfig);
-  console.info("Used User config file");
-  console.log(redConfig);
+  console.info("Used User config for flows");
+  console.log(redConfig);  
+
 } catch (e) {
   console.info(e);
   // Do nothing - the user never supplied a "userConfig".
   console.info("User did not supply a configuration file");
 }
-
-
 
 // Initialise the runtime with a server and settings
 console.log("Node red config = ", redConfig);
@@ -47,6 +46,17 @@ RED.init(server,redConfig);
 if (redConfig.httpAdminRoot) {
     app.use(redConfig.httpAdminRoot,RED.httpAdmin);
 }
+
+try {
+  let userApp = require("/usr/src/workspace/app.js");
+  app = userApp(app);
+  console.log("User supplied custom app");
+} catch (e) {
+  console.info(e);
+  // Do nothing - the user never supplied an app override.
+  console.info("User did not supply any app overrides");
+}
+
 
 app.use(function (req, res, next) {
 	res.setHeader('X-Powered-By', 'Propl')
@@ -104,3 +114,10 @@ process.on('unhandledRejection', error => {
   // Exit the process on unhandled rejection, which should restart with auto-healing enabled.
   // process.exit();
 });
+
+if (process.env.NODE_ENV && process.env.NODE_ENV == "development") {
+  process.on('uncaughtException', function (exception) {
+     console.error("Uncaught Exception - please fix", exception);
+  });  
+}
+
