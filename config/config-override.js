@@ -15,6 +15,3 @@ module.exports  = function(config) {
     // 	next();
 	//};
 }
-
-	return config;
-};
