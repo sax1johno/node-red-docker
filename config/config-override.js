@@ -14,4 +14,5 @@ module.exports  = function(config) {
     //	// to the relevant HTTP In node.
     // 	next();
 	//};
+	return config;
 }
