@@ -43,6 +43,8 @@
     "node-red-node-feedparser": "0.1.*",
     "node-red-node-mongodb": "0.0.14",
     "node-red-node-twitter": "1.*",
+    "passport": "^0.4.0",
+    "passport-oauth2": "^1.5.0",
     "pouchdb": "^7.0.0",
     "pouchdb-upsert": "^2.2.0",
     "sentiment": "5.0.1",
