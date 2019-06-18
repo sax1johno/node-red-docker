@@ -33,7 +33,7 @@ module.exports = {
   nodered: function() {
     var returnObj = {
         mongoAppname: process.env.MONGO_APPNAME,
-        couchAppname: process.env.COUCH_APPNAME,        
+        couchAppname: process.env.COUCH_APPNAME,
         mongoCollection: process.env.MONGO_COLLECTION,
         couchCollection: process.env.COUCH_COLLECTION,
         mongoUrl: process.env.MONGO_DATABASE_URL,
@@ -108,8 +108,7 @@ module.exports = {
         // The maximum size of HTTP request that will be accepted by the runtime api.
         // Default: 5mb
         apiMaxLength: '10mb',
-
-
+        
         // To password protect the node-defined HTTP endpoints (httpNodeRoot), or
         // the static content (httpStatic), the following properties can be used.
         // The pass field is a bcrypt hash of the password.

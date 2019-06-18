@@ -26,6 +26,7 @@ var server = http.createServer(app);
 var redConfig = config.nodered();
 console.log("userDir = ", redConfig.userDir);
 
+// Apply optional configuration overrides from the user
 try {
   var userConfig = require("/usr/src/workspace/config.js");
   redConfig = userConfig(redConfig);
@@ -38,6 +39,19 @@ try {
   console.info("User did not supply a configuration file");
 }
 
+// Apply optional environment configuration
+try {
+  var environmentOverride = require("/usr/src/environment/config.js");
+  redConfig = environmentOverride(redConfig);
+  console.info("Used environment config for flows");
+  console.log(redConfig);
+} catch (e) {
+  console.info(e);
+  // Do nothing - the user never supplied a "userConfig".
+  console.info("Environment did not supply a configuration file");
+}
+
+
 // Initialise the runtime with a server and settings
 console.log("Node red config = ", redConfig);
 RED.init(server,redConfig);
@@ -47,6 +61,7 @@ if (redConfig.httpAdminRoot) {
     app.use(redConfig.httpAdminRoot,RED.httpAdmin);
 }
 
+// Optional user application overrides (including customized app integrations)
 try {
   let userApp = require("/usr/src/workspace/app.js");
   app = userApp(app);
@@ -56,6 +71,18 @@ try {
   // Do nothing - the user never supplied an app override.
   console.info("User did not supply any app overrides");
 }
+
+// Optional environment application overrides
+try {
+  let envApp = require("/usr/src/environment/app.js");
+  app = envApp(app);
+  console.log("Environment supplied custom app");
+} catch (e) {
+  console.info(e);
+  // Do nothing - the user never supplied an app override.
+  console.info("Environment did not supply any app overrides");
+}
+
 
 
 app.use(function (req, res, next) {
