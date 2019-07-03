@@ -334,7 +334,20 @@ module.exports = {
         }
     }
 
+    if (!process.env.DISABLE_METRICS) {
+        returnObj.useAppmetrics = true;
+    } 
 
+    returnObject.nodesExcludes = [
+        '66-mongodb.js',
+        '75-exec.js',
+        '35-arduino.js',
+        '36-rpi-gpio.js',
+        '25-serial.js',
+        '28-tail.js',
+        '31-tcpin.js',
+        '32-udp.js'
+    ]
     
     return returnObj;
   }

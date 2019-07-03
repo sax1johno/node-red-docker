@@ -5,7 +5,7 @@ then
 	#cp /tmp/public/* /usr/src/workspace/public
 fi
 
-if [ ! -f /usr/src/workspace/public/index.html ]
+if [ ! -f /usr/src/workspace/public/index.html ] && [ ! -e "NO_INDEX" ]
 	then
 		cp /tmp/public/index.html /usr/src/workspace/public/index.html
 fi
