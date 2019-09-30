@@ -1,11 +1,17 @@
-FROM node:carbon
+FROM node:dubnium
 
 # Copy package.json and install dependencies
+COPY libs /tmp/libs
 COPY package.json /tmp/package.json
-RUN cd /tmp && npm install
+RUN npm install -g recursive-install grunt \
+		&& cd /tmp/libs/node-red \
+		&& npm install \
+		&& npm run build \
+		&& cd ../../ \
+		&& npm install
 
 # copy the source code and webapp to the webapp folder, along with already-installed node modules.
-RUN mkdir -p /usr/src && cp -a /tmp/node_modules /usr/src/
+RUN mkdir -p /usr/src && cp -a /tmp/node_modules /usr/src/ && cp -a /tmp/libs /usr/src
 RUN mkdir -p /usr/src/config && mkdir -p /usr/src/public && mkdir -p /usr/src/flows && mkdir -p /temp/public
 
 COPY package.json /usr/src
@@ -57,4 +63,4 @@ ENV NODE_ENV ""
 EXPOSE $PORT
 WORKDIR /usr/src
 
-CMD ["bash", "start.sh"]
+CMD ["bash"]

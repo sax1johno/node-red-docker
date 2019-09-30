@@ -338,7 +338,7 @@ module.exports = {
         returnObj.useAppmetrics = true;
     } 
 
-    returnObject.nodesExcludes = [
+    returnObj.nodesExcludes = [
         '66-mongodb.js',
         '75-exec.js',
         '35-arduino.js',
