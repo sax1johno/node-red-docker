@@ -63,4 +63,4 @@ ENV NODE_ENV ""
 EXPOSE $PORT
 WORKDIR /usr/src
 
-CMD ["bash"]
+CMD ["bash", "start.sh"]
