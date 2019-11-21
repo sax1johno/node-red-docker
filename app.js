@@ -32,7 +32,7 @@ try {
   var userConfig = require("/usr/src/workspace/config.js");
   redConfig = userConfig(redConfig);
   console.info("Used User config for flows");
-  console.log(redConfig);  
+  console.log(redConfig);
 
 } catch (e) {
   console.info(e);
