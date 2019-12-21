@@ -1,6 +1,6 @@
 {
   "name": "Propl_NodeRedBase",
-  "version": "1.8.19",
+  "version": "1.8.20",
   "description": "A Node-RED base application",
   "main": "app.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "moment-timezone": "^0.5.21",
     "mongodb": "^3.1.6",
     "nano": "^7.1.0",
-    "node-red": "^0.20.4",
+    "node-red": "^0.20.6",
     "node-red-auth-github": "^0.1.1",
     "node-red-contrib-auth": "^0.1.5",
     "node-red-contrib-aws": "^0.3.7",
