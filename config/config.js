@@ -290,7 +290,9 @@ module.exports = {
         returnObj.storageModule = require("./couchstorage");
     } else if (process.env.STORAGE == "pouch") {
         returnObj.credentialSecret = false;
-        returnObj.storageModule = require("./pouchstorage");        
+        returnObj.storageModule = require("./pouchstorage");  
+    } else if (process.env.STORAGE == "yaml") {
+        returnObj.storageModule = require('node-red-contrib-yaml-storage');
     } else {
         // The file containing the flows. If not set, it defaults to flows_<hostname>.json
         returnObj.flowFile = process.env.FLOW_FILE;
