@@ -4,13 +4,14 @@ FROM node:dubnium
 COPY libs /tmp/libs
 COPY package.json /tmp/package.json
 # RUN npm install -g recursive-install grunt \
-		&& cd /tmp/libs/node-red \
-		&& npm install \
-		&& npm run build \
-		&& cd ../../ \
-		&& npm install
+#		&& cd /tmp/libs/node-red \
+#		&& npm install \
+#		&& npm run build \
+#		&& cd ../../ \
+#		&& npm install
 
-RUN cd /tmp && npm install
+RUN cd /tmp \
+	&& npm install
 
 # copy the source code and webapp to the webapp folder, along with already-installed node modules.
 RUN mkdir -p /usr/src && cp -a /tmp/node_modules /usr/src/ && cp -a /tmp/libs /usr/src
