@@ -1,6 +1,6 @@
 {
   "name": "Propl_NodeRedBase",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "description": "A Node-RED web application base.",
   "main": "app.js",
   "scripts": {
