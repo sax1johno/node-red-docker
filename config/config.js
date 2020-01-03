@@ -292,7 +292,7 @@ module.exports = {
         returnObj.credentialSecret = false;
         returnObj.storageModule = require("./pouchstorage");  
     } else if (process.env.STORAGE == "yaml") {
-        returnObj.storageModule = require('node-red-contrib-yaml-storage');
+        returnObj.storageModule = require('node-red-contrib-yaml-storage2');
     } else {
         // The file containing the flows. If not set, it defaults to flows_<hostname>.json
         returnObj.flowFile = process.env.FLOW_FILE;
@@ -313,7 +313,7 @@ module.exports = {
     
     // TODO: Make themes selectable with environment variable.
     // For now, dark theme is the default.    
-//    returnObj.editorTheme.page.css = "/usr/src/styles/propl-dark/midnight.css";
+    returnObj.editorTheme.page.css = "/usr/src/styles/propl-dark/midnight.css";
 //    returnObj.editorTheme.page.scripts = "/usr/src/styles/propl-dark/theme-tomorrow.js"
 
     if (process.env.AUTH_GITHUB) {
