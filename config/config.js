@@ -294,7 +294,7 @@ module.exports = {
     } else if (process.env.STORAGE == "yaml") {
         returnObj.flowFile = process.env.FLOW_FILE;
         returnObj.flowFilePretty= true;                
-        returnObj.storageModule = require('node-red-contrib-yaml-storage2');
+        returnObj.storageModule = require('node-red-contrib-yaml-storage');
     } else {
         // The file containing the flows. If not set, it defaults to flows_<hostname>.json
         returnObj.flowFile = process.env.FLOW_FILE;
