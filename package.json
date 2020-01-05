@@ -1,6 +1,6 @@
 {
   "name": "Propl_NodeRedBase",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "A Node-RED web application base.",
   "main": "app.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "node-red-contrib-yaml-storage": "^1.1.0",
     "node-red-node-email": "^1.7.3",
     "node-red-node-feedparser": "^0.1.15",
-    "node-red-node-twitter": "^1.1.6",    
+    "node-red-node-twitter": "^1.1.6",
     "passport": "^0.4.1",
     "passport-oauth2": "^1.5.0",
     "pouchdb": "^7.1.1",
