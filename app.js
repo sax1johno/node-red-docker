@@ -11,8 +11,19 @@ var RED = require("node-red"),
     _ = require('lodash'),
     pouch = require('pouchdb');
 
+var config;
+try {
+  config = require("/usr/src/config/config.js");  
+} catch (e) {
+  console.info(e);
+  // Do nothing - the user never supplied a "userConfig".
+  console.info("Unable to find default config - dropping back to development environment configuration");
+  process.env.ENV = "development";
+}
 
-var config = require("/usr/src/config/config.js");
+if (process.env.ENV == "development") {
+  config = require("./config/config.js");
+}
 
 
 app.get("/healthcheck", function(req, res) {

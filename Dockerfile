@@ -1,4 +1,4 @@
-FROM node:dubnium
+FROM node:lts
 
 # Copy package.json and install dependencies
 COPY libs /tmp/libs
