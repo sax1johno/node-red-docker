@@ -353,6 +353,8 @@ module.exports = {
         '32-udp.js'
     ]
     
+    returnObj.functionExternalModules = process.env.FUNCTION_EXTERNAL_MODULES || true;
+    
     return returnObj;
   }
 };

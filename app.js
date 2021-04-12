@@ -4,6 +4,8 @@
  **/
 var http = require('http');
 var express = require("express");
+var serveStatic = require('serve-static');
+
 var RED = require("node-red"),
     app = express(),
     environment = app.settings.env,
@@ -30,7 +32,9 @@ app.get("/healthcheck", function(req, res) {
     res.status(200).send({"status": "healthy"});
 });
 
-app.use("/",express.static("/usr/src/workspace/public"));
+
+// app.use("/",express.static("/usr/src/workspace/public"));
+app.use(serveStatic('/usr/src/workspace/public'));
 
 // Create a server
 var server = http.createServer(app);
