@@ -26,7 +26,7 @@
     "moment-timezone": "^0.5.33",
     "mongodb": "^3.6.6",
     "nano": "^9.0.3",
-    "node-red": "^1.3.1",
+    "node-red": "^1.3.5",
     "node-red-contrib-auth": "^0.1.7",
     "node-red-contrib-bcrypt": "0.0.49",
     "node-red-contrib-credentials": "^0.2.1",
