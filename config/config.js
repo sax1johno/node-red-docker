@@ -309,7 +309,10 @@ module.exports = {
 
     if (process.env.PROJECTS) {
         returnObj.editorTheme.projects = {
-            "enabled": true
+            "enabled": true,
+            "workflow": {
+                "mode": "auto"
+            }
         }
     }
     
