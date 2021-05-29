@@ -43,7 +43,7 @@
     "sentiment": "^5.0.2",
     "underscore": "^1.13.0",
     "when": "^3.7.8",
-    "ws": "^7.4.4"
+    "ws": "^7.4.6"
   },
   "optionalDependencies": {
     "node-red-node-serialport": "0.13.*"
