@@ -1,5 +1,16 @@
 version: '2.0'
 services:
+    nats:
+        image: nats:2.3
+        ports:
+            - "4222"
+            - "6222"
+            - "8222"
+        command: [ "-js" ]
+    redis:
+        image: redis:6.2
+        ports:
+            - "6379"
     node-red:
         # image: sax1johno/node-red-base
         build: .
@@ -8,14 +19,4 @@ services:
             - '80'
         restart: unless-stopped
         environment:
-            - STORAGE=couch
-        links:
-            - couchdb
-        depends_on:
-            - couchdb
-    couchdb:
-        image: couchdb
-        ports:
-            - '5984'
-        external_links:
-            - upstream:upstream
+            PROJECTS: "true"
