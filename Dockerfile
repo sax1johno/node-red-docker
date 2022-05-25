@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:lts-alpine
 
 # Copy package.json and install dependencies
 COPY libs /tmp/libs
@@ -66,4 +66,4 @@ ENV NODE_ENV ""
 EXPOSE $PORT
 WORKDIR /usr/src
 
-CMD ["bash", "start.sh"]
+CMD ["/bin/sh", "start.sh"]
