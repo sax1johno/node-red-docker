@@ -1,0 +1,9 @@
+# Example Dockerfile
+# Copy this file into your Propl workspace when you're ready to build and deploy your application.
+FROM sax1johno/node-red-base:v2.4.1
+
+COPY workspace /usr/src/workspace
+
+EXPOSE 80
+
+CMD ["node", "app.js"]
