@@ -1,6 +1,6 @@
 {
   "name": "Propl_NodeRedBase",
-  "version": "2.4.2",
+  "version": "3.0",
   "description": "A Node-RED web application base.",
   "main": "app.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "node app.js"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "author": "John O&#39;Connor (sax1johno@gmail.com)",
   "license": "SEE LICENSE IN LICENSE.txt",

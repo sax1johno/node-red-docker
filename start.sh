@@ -33,6 +33,7 @@ fi
 if [ -f /usr/src/workspace/package.json ]
 then
 	cp /usr/src/workspace/package.json /tmp/package.json && cd /tmp && npm install && cp -a /tmp/node_modules /usr/src/ 
+	cd /usr/src/workspace && npm install
 fi
 
 cd /usr/src && npm start
