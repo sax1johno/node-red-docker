@@ -1,5 +1,5 @@
 {
-  "name": "Propl_NodeRedBase",
+  "name": "propl-nodered-base",
   "version": "4.0.9",
   "description": "A Node-RED web application base.",
   "main": "app.js",
