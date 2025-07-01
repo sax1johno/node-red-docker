@@ -26,7 +26,7 @@
     "mongodb": "^6.17.0",
     "nano": "^10.1.4",
     "node-red": "^4.0.9",
-    "node-red-node-email": "^0.1.12",
+    "node-red-node-email": "^3.0.3",
     "passport": "^0.7.0",
     "passport-oauth2": "^1.8.0",
     "pouchdb": "^9.0.0",
