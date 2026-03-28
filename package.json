@@ -25,7 +25,7 @@
     "moment-timezone": "^0.6.0",
     "mongodb": "^6.21.0",
     "nano": "^10.1.4",
-    "node-red": "^4.1.6",
+    "node-red": "^4.1.7",
     "node-red-node-email": "^5.2.1",
     "passport": "^0.7.0",
     "passport-oauth2": "^1.8.0",
